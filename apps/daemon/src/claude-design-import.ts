@@ -8,7 +8,11 @@ const EOCD_SIG = 0x06054b50;
 const CENTRAL_SIG = 0x02014b50;
 const LOCAL_SIG = 0x04034b50;
 
-const MAX_FILES = 500;
+// Medium-sized Claude Design exports routinely contain >500 files (asset
+// directories, fonts, page-per-file layouts). The byte limits below already
+// bound total memory; the file-count guard exists to stop pathological
+// archives, not to reject typical exports.
+const MAX_FILES = 5000;
 const MAX_TOTAL_BYTES = 100 * 1024 * 1024;
 const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
@@ -113,6 +117,11 @@ function readEntryBody(zip, entry) {
   if (bodyEnd > zip.length) throw new Error(`zip entry exceeds archive: ${entry.name}`);
   const compressed = zip.slice(bodyStart, bodyEnd);
   if (entry.method === 0) return Buffer.from(compressed);
+  // Node 24's `inflateRawSync` rejects `maxOutputLength: 0` with a RangeError,
+  // so a zero-length DEFLATE entry (common for empty placeholder files in
+  // Claude Design exports) crashes the whole import. Return the empty buffer
+  // directly without invoking the decompressor.
+  if (entry.uncompressedSize === 0) return Buffer.alloc(0);
   return inflateRawSync(compressed, { maxOutputLength: entry.uncompressedSize });
 }
 

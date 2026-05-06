@@ -374,7 +374,12 @@ export function App() {
 
   const handleImportClaudeDesign = useCallback(async (file: File) => {
     const result = await importClaudeDesignZip(file);
-    if (!result) return;
+    if ('error' in result) {
+      // Re-throw so NewProjectPanel can show the daemon's error message
+      // inline next to the import button instead of the click silently
+      // doing nothing.
+      throw new Error(result.error);
+    }
     setProjects((curr) => [
       result.project,
       ...curr.filter((p) => p.id !== result.project.id),

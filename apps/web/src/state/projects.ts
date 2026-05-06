@@ -57,9 +57,13 @@ export async function createProject(input: {
   }
 }
 
+export type ImportClaudeDesignZipResult =
+  | { project: Project; conversationId: string; entryFile: string }
+  | { error: string };
+
 export async function importClaudeDesignZip(
   file: File,
-): Promise<{ project: Project; conversationId: string; entryFile: string } | null> {
+): Promise<ImportClaudeDesignZipResult> {
   try {
     const form = new FormData();
     form.append('file', file);
@@ -67,14 +71,29 @@ export async function importClaudeDesignZip(
       method: 'POST',
       body: form,
     });
-    if (!resp.ok) return null;
+    if (!resp.ok) {
+      // The daemon returns `{ error: string }` for every failure path
+      // (multer rejections, zip validation, file-count caps, decompression
+      // crashes). Surface that text to the caller so the UI can show it
+      // instead of silently dropping the click.
+      let message = `import failed (${resp.status})`;
+      try {
+        const body = (await resp.json()) as { error?: unknown };
+        if (typeof body?.error === 'string' && body.error.trim()) {
+          message = body.error;
+        }
+      } catch {
+        // body wasn't JSON — keep the status-based fallback
+      }
+      return { error: message };
+    }
     return (await resp.json()) as {
       project: Project;
       conversationId: string;
       entryFile: string;
     };
-  } catch {
-    return null;
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : String(err) };
   }
 }
 

@@ -230,6 +230,7 @@ export const ptBR: Dict = {
   'newproj.importClaudeZip': 'Importar ZIP do Claude Design',
   'newproj.importClaudeZipTitle': 'Importar uma exportação .zip do Claude Design',
   'newproj.importingClaudeZip': 'Importando…',
+  'newproj.importClaudeZipFailed': 'Falha na importação',
   'newproj.privacyFooter': 'Por padrão, só você pode ver seu projeto.',
   'newproj.designSystem': 'Sistema de design',
   'newproj.dsNoneFreeform': 'Nenhum — livre',
