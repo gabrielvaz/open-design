@@ -230,6 +230,7 @@ export const ko: Dict = {
   'newproj.importClaudeZip': 'Claude Design ZIP 가져오기',
   'newproj.importClaudeZipTitle': 'Claude Design .zip 내보내기 파일 가져오기',
   'newproj.importingClaudeZip': '가져오는 중…',
+  'newproj.importClaudeZipFailed': '가져오기 실패',
   'newproj.privacyFooter': '기본적으로 프로젝트는 나만 볼 수 있습니다.',
   'newproj.designSystem': '디자인 시스템',
   'newproj.dsNoneFreeform': '없음 — 자유 양식',

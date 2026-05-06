@@ -227,6 +227,7 @@ export const zhCN: Dict = {
   'newproj.importClaudeZip': '导入 Claude Design ZIP',
   'newproj.importClaudeZipTitle': '导入 Claude Design 导出的 .zip 文件',
   'newproj.importingClaudeZip': '正在导入…',
+  'newproj.importClaudeZipFailed': '导入失败',
   'newproj.privacyFooter': '默认情况下只有你能看到自己的项目。',
   'newproj.designSystem': '设计体系',
   'newproj.dsNoneFreeform': '不指定 — 自由发挥',

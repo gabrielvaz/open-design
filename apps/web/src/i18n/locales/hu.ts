@@ -230,6 +230,7 @@ export const hu: Dict = {
   'newproj.importClaudeZip': 'Claude Design ZIP importálása',
   'newproj.importClaudeZipTitle': 'Claude Design .zip export importálása',
   'newproj.importingClaudeZip': 'Importálás…',
+  'newproj.importClaudeZipFailed': 'Sikertelen importálás',
   'newproj.privacyFooter': 'Alapértelmezetten csak te láthatod a projekted.',
   'newproj.designSystem': 'Designrendszer',
   'newproj.dsNoneFreeform': 'Nincs — szabad formátum',

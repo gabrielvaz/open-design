@@ -92,6 +92,7 @@ export function NewProjectPanel({
   const t = useT();
   const importInputRef = useRef<HTMLInputElement | null>(null);
   const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
   const [tab, setTab] = useState<CreateTab>('prototype');
   const tabsRef = useRef<HTMLDivElement | null>(null);
   const [tabScroll, setTabScroll] = useState({ left: false, right: false });
@@ -285,8 +286,11 @@ export function NewProjectPanel({
     ev.target.value = '';
     if (!file || !onImportClaudeDesign) return;
     setImporting(true);
+    setImportError(null);
     try {
       await onImportClaudeDesign(file);
+    } catch (err) {
+      setImportError(err instanceof Error ? err.message : String(err));
     } finally {
       setImporting(false);
     }
@@ -504,6 +508,11 @@ export function NewProjectPanel({
           </>
         ) : null}
       </div>
+      {importError ? (
+        <div className="newproj-import-error" role="alert" data-testid="new-project-import-error">
+          {t('newproj.importClaudeZipFailed')}: {importError}
+        </div>
+      ) : null}
       <div className="newproj-footer">{t('newproj.privacyFooter')}</div>
     </div>
   );

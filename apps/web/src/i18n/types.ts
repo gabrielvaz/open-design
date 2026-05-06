@@ -273,6 +273,7 @@ export interface Dict {
   'newproj.importClaudeZip': string;
   'newproj.importClaudeZipTitle': string;
   'newproj.importingClaudeZip': string;
+  'newproj.importClaudeZipFailed': string;
   'newproj.privacyFooter': string;
   'newproj.designSystem': string;
   'newproj.dsNoneFreeform': string;
